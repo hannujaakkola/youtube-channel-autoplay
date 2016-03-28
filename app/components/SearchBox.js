@@ -2,12 +2,14 @@ import React from 'react'
 import { getUploads } from './../player.js'
 
 export let updateSearch
+export let toggleError
 
 export class SearchBox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: ''
+      value: '',
+      error: false
     }
 
     this.change = this.change.bind(this)
@@ -26,6 +28,7 @@ export class SearchBox extends React.Component {
 
   componentWillMount() {
     updateSearch = value => this.setState({value})
+    toggleError = value => this.setState({error: value})
   }
 
   render() {
@@ -39,6 +42,7 @@ export class SearchBox extends React.Component {
           />
           <input type="submit" value="search" />
         </form>
+        <p className="text-center">{this.state.error ? `Didn't find anything :(` : ''}</p>
       </div>
     )
   }

@@ -119,3 +119,7 @@ input {
 .videoList .watched, .videoList .watched .date {
   color: #aaa;
 }
+
+.text-center {
+  text-align: center;
+}

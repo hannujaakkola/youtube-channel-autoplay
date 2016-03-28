@@ -1,7 +1,8 @@
+import { API_KEY } from './config.js'
 import _ from 'lodash'
 import moment from 'moment'
 import { updateVideos, clearVideos } from './components/VideoList.js!jsx'
-import { updateSearch} from './components/SearchBox.js!jsx'
+import { updateSearch, toggleError } from './components/SearchBox.js!jsx'
 
 const body = document.getElementsByTagName('body')[0]
 const player = new YT.Player('player', {
@@ -44,9 +45,12 @@ export function getUploads(username) {
   var url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=${username}&key=${API_KEY}`
   fetch(url).then(response => {
     response.json().then(data => {
-      if (!data.items.length) {
-        return;
+      if (!data.items || !data.items.length) {
+        toggleError(true)
+        return
       }
+
+      toggleError(false)
 
       var playlistId = data.items[0].contentDetails.relatedPlaylists.uploads
       var playlistItemUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`
@@ -85,5 +89,3 @@ export function playVideo(video) {
   playingVideo = video
   player.loadVideoById(video.snippet.resourceId.videoId, 0, 'large')
 }
-
-let videoPosition
