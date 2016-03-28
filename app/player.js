@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import moment from 'moment'
 import { updateVideos, clearVideos } from './components/VideoList.js!jsx'
+import { updateSearch} from './components/SearchBox.js!jsx'
 
-const playerContainer = document.getElementById('playerContainer')
+const body = document.getElementsByTagName('body')[0]
 const player = new YT.Player('player', {
   height: '480',
   width: '854',
@@ -58,6 +59,7 @@ export function getUploads(username) {
 function onPlayerReady(event) {
   var username = document.location.search.split('?')[1]
   if (username) {
+    updateSearch(username)
     getUploads(username)
   }
 }
@@ -79,7 +81,7 @@ function onPlayerStateChange(event) {
 }
 
 export function playVideo(video) {
-  playerContainer.className = 'visible'
+  body.className = 'videoPlaying'
   playingVideo = video
   player.loadVideoById(video.snippet.resourceId.videoId, 0, 'large')
 }

@@ -13,16 +13,31 @@ body {
   background: url('/assets/footer_lodyas.png') repeat;
 }
 
-#playerContainer {
-  display: none;
+#playerContainer, .help {
   text-align: center;
   background: #000;
-  height: 480px;
   box-shadow: 0 0 3px rgba(0, 0, 0, .5);
 }
 
-#playerContainer.visible {
+#playerContainer {
+  display: none;
+  height: 480px;
+}
+
+.videoPlaying #playerContainer {
   display: block;
+}
+
+.help {
+  padding: 20px 0;
+}
+
+h3, p {
+  margin: 10px 0;
+}
+
+.videoPlaying .help {
+  display: none;
 }
 
 input {
@@ -31,6 +46,8 @@ input {
   height: 34px;
   padding: 0 2%;
   color: #fff;
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .container {
@@ -42,7 +59,7 @@ input {
 }
 
 .search {
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .search form {
@@ -64,12 +81,14 @@ input {
   width: 20%;
   border-top-right-radius: 1px;
   border-bottom-right-radius: 1px;
+  cursor: pointer;
 }
 
 .videoList li {
   list-style: none;
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 }
 
 .videoList li:nth-of-type(2n+1) {

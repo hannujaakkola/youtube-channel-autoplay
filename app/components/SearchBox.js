@@ -1,6 +1,8 @@
 import React from 'react'
 import { getUploads } from './../player.js'
 
+export let updateSearch
+
 export class SearchBox extends React.Component {
   constructor(props) {
     super(props)
@@ -22,12 +24,20 @@ export class SearchBox extends React.Component {
     history.pushState({}, '', '?' + this.state.value)
   }
 
+  componentWillMount() {
+    updateSearch = value => this.setState({value})
+  }
+
   render() {
     return (
       <div className="search">
         <form onSubmit={this.onSubmit}>
-          <input type="text" value={this.state.value} onChange={this.change} />
-          <input type="submit" value="Search" />
+          <input type="text"
+                 value={this.state.value}
+                 onChange={this.change}
+                 placeholder="channel name"
+          />
+          <input type="submit" value="search" />
         </form>
       </div>
     )
