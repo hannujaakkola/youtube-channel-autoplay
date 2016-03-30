@@ -84,9 +84,21 @@ function onPlayerStateChange(event) {
     videos[position].watched = true
     updateVideos(videos)
 
-    if(position > 0) {
+    if (position > 0) {
       playVideo(videos[position-1])
+    } else {
+      exitFullscreen()
     }
+  }
+}
+
+function exitFullscreen() {
+  if(document.exitFullscreen) {
+    document.exitFullscreen()
+  } else if(document.mozCancelFullScreen) {
+    document.mozCancelFullScreen()
+  } else if(document.webkitExitFullscreen) {
+    document.webkitExitFullscreen()
   }
 }
 
