@@ -40,7 +40,7 @@ h3, p {
   display: none;
 }
 
-input {
+input, button {
   border: 1px solid #ccc;
   line-height: 30px;
   height: 34px;
@@ -48,6 +48,7 @@ input {
   color: #fff;
   font-size: 16px;
   font-family: 'Open Sans', sans-serif;
+  cursor: pointer;
 }
 
 .container {
@@ -122,4 +123,14 @@ input {
 
 .text-center {
   text-align: center;
+}
+
+.videoList .loadMoreContainer {
+  display: block;
+  padding: 20px 0;
+}
+
+.videoList .loadMoreContainer button {
+  background: #333;
+  border-radius: 2px;
 }

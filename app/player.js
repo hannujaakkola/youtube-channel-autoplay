@@ -14,19 +14,21 @@ const player = new YT.Player('player', {
   }
 })
 
-let videos, playingVideo
+let videos, playingVideo, playlistItemUrl, nextPageToken
 let watchedVideos = []
 if (localStorage.watchedVideos) {
   watchedVideos = JSON.parse(localStorage.watchedVideos)
 }
 
-function getPlaylist(url, nextPageToken) {
-  if (nextPageToken) {
-    url += `&pageToken=${nextPageToken}`
+function getPlaylist(url, pageToken) {
+  if (pageToken) {
+    url += `&pageToken=${pageToken}`
   }
 
   fetch(url).then(response => {
     response.json().then(data => {
+      nextPageToken = data.nextPageToken
+
       videos = videos.concat(data.items).map(video => {
         video.watched = _.includes(watchedVideos, video.snippet.resourceId.videoId)
         video.publishedAgo = moment(video.snippet.publishedAt).fromNow()
@@ -53,11 +55,15 @@ export function getUploads(username) {
       toggleError(false)
 
       var playlistId = data.items[0].contentDetails.relatedPlaylists.uploads
-      var playlistItemUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`
+      playlistItemUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`
 
       getPlaylist(playlistItemUrl)
     })
   })
+}
+
+export function loadMoreVideos() {
+  getPlaylist(playlistItemUrl, nextPageToken);
 }
 
 function onPlayerReady(event) {

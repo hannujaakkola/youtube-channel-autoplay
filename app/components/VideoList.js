@@ -1,6 +1,6 @@
 import React from 'react'
 import Video from './Video.js!jsx'
-import { playVideo } from './../player.js'
+import { playVideo, loadMoreVideos } from './../player.js'
 
 export let updateVideos
 export let clearVideos
@@ -27,8 +27,12 @@ export class VideoList extends React.Component {
     }
   }
 
-  click(video) {
+  play(video) {
     playVideo(video)
+  }
+
+  loadMore() {
+    loadMoreVideos()
   }
 
   render() {
@@ -36,7 +40,7 @@ export class VideoList extends React.Component {
       <div className="videoList">
         <ul>
           {this.state.videos.map(video => {
-            var boundClick = this.click.bind(this, video)
+            var boundClick = this.play.bind(this, video)
             return <Video
                      key={video.id}
                      position={video.snippet.position}
@@ -47,6 +51,11 @@ export class VideoList extends React.Component {
                      onClick={boundClick}
                    />
           })}
+          {this.state.videos.length >= 50 ?
+            <li className="loadMoreContainer text-center">
+              <button onClick={this.loadMore}>Load more</button>
+            </li>
+          : ''}
         </ul>
       </div>
     )
