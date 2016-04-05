@@ -6,8 +6,8 @@ import { updateSearch, toggleError } from './components/SearchBox.js!jsx'
 
 const body = document.getElementsByTagName('body')[0]
 const player = new YT.Player('player', {
-  height: '480',
-  width: '854',
+  height: '100%',
+  width: '100%',
   events: {
     'onReady': onPlayerReady,
     'onStateChange': onPlayerStateChange
