@@ -16,6 +16,7 @@ const player = new YT.Player('player', {
 
 let videos, playingVideo, playlistItemUrl, nextPageToken
 let watchedVideos = []
+let reverseOrder = false
 if (localStorage.watchedVideos) {
   watchedVideos = JSON.parse(localStorage.watchedVideos)
 }
@@ -84,8 +85,10 @@ function onPlayerStateChange(event) {
     videos[position].watched = true
     updateVideos(videos)
 
-    if (position > 0) {
+    if (!reverseOrder && position > 0) {
       playVideo(videos[position-1])
+    } else if (reverseOrder && position < videos.length - 1) {
+      playVideo(videos[position+1])
     } else {
       exitFullscreen()
     }
@@ -106,4 +109,8 @@ export function playVideo(video) {
   body.className = 'videoPlaying'
   playingVideo = video
   player.loadVideoById(video.snippet.resourceId.videoId, 0, 'large')
+}
+
+export function changePlayingOrder(order) {
+  reverseOrder = order
 }

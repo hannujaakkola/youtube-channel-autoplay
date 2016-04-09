@@ -1,5 +1,5 @@
 import React from 'react'
-import { getUploads } from './../player.js'
+import { getUploads, changePlayingOrder } from './../player.js'
 
 export let updateSearch
 export let toggleError
@@ -9,15 +9,22 @@ export class SearchBox extends React.Component {
     super(props)
     this.state = {
       value: '',
-      error: false
+      error: false,
+      reverseOrder: false
     }
 
     this.change = this.change.bind(this)
+    this.changeOrder = this.changeOrder.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   change(e) {
     this.setState({value: e.target.value})
+  }
+
+  changeOrder() {
+    changePlayingOrder(!this.state.reverseOrder)
+    this.setState({reverseOrder: !this.state.reverseOrder})
   }
 
   onSubmit(e) {
@@ -43,6 +50,8 @@ export class SearchBox extends React.Component {
           <input type="submit" value="search" />
         </form>
         <p className="text-center">{this.state.error ? `Didn't find anything :(` : ''}</p>
+
+        <p className="text-center pointer" onClick={this.changeOrder}>Playing videos from {this.state.reverseOrder ? 'newest to oldest ▼' : 'oldest to newest ▲'}</p>
       </div>
     )
   }
