@@ -106,6 +106,7 @@ function exitFullscreen() {
 }
 
 export function playVideo(video) {
+  window.scroll(0,0)
   body.className = 'videoPlaying'
   playingVideo = video
   player.loadVideoById(video.snippet.resourceId.videoId, 0, 'large')
