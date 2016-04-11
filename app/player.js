@@ -1,8 +1,10 @@
 import { API_KEY } from './config.js'
 import _ from 'lodash'
 import moment from 'moment'
-import { updateVideos, clearVideos } from './components/VideoList.js!jsx'
+
+import { updateVideos, clearVideos } from './actions/video.js'
 import { updateSearch, toggleError } from './components/SearchBox.js!jsx'
+// console.log(clearVideos);
 
 const body = document.getElementsByTagName('body')[0]
 const player = new YT.Player('player', {

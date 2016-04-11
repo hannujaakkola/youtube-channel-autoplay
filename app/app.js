@@ -1,18 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Help } from './components/Help.js!jsx'
-import { VideoList } from './components/VideoList.js!jsx'
-import { SearchBox } from './components/SearchBox.js!jsx'
+import { App } from './components/App.js!jsx'
 
-const App = props => (
-  <div>
-    <Help />
-    <div className="container">
-      <SearchBox />
-      <VideoList />
-    </div>
-  </div>
-)
+export const state = {
+  videos: []
+}
 
-ReactDOM.render(<App />, document.getElementById('app'))
+export function render() {
+  ReactDOM.render(<App state={state} />, document.getElementById('app'))
+}
+
+// hack that makes things work
+// maybe try http://stackoverflow.com/questions/33897273/typescript-and-systemjs-circle-dependency/33905499
+window.setTimeout(render, 0)
+// render()

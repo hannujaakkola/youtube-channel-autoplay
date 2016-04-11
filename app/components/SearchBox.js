@@ -1,10 +1,10 @@
 import React from 'react'
 import { getUploads, changePlayingOrder } from './../player.js'
 
-export let updateSearch
-export let toggleError
+let updateSearch
+let toggleError
 
-export class SearchBox extends React.Component {
+class SearchBox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -56,3 +56,5 @@ export class SearchBox extends React.Component {
     )
   }
 }
+
+export default SearchBox
