@@ -4,7 +4,12 @@ import ReactDOM from 'react-dom'
 import { App } from './components/App.js!jsx'
 
 export const state = {
-  videos: []
+  videos: [],
+  reverseOrder: false,
+  search: {
+    value: '',
+    error: false,
+  }
 }
 
 export function render() {

@@ -1,60 +1,33 @@
 import React from 'react'
 import { getUploads, changePlayingOrder } from './../player.js'
+import { updateSearch, changeOrder } from './../actions/search.js'
 
-let updateSearch
-let toggleError
-
-class SearchBox extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: '',
-      error: false,
-      reverseOrder: false
-    }
-
-    this.change = this.change.bind(this)
-    this.changeOrder = this.changeOrder.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+const SearchBox = props => {
+  function onChange(e) {
+    updateSearch(e.target.value)
   }
 
-  change(e) {
-    this.setState({value: e.target.value})
-  }
-
-  changeOrder() {
-    changePlayingOrder(!this.state.reverseOrder)
-    this.setState({reverseOrder: !this.state.reverseOrder})
-  }
-
-  onSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault()
-    getUploads(this.state.value)
-    history.pushState({}, '', '?' + this.state.value)
+    getUploads(props.state.search.value)
+    history.pushState({}, '', '?' + props.state.search.value)
   }
 
-  componentWillMount() {
-    updateSearch = value => this.setState({value})
-    toggleError = value => this.setState({error: value})
-  }
+  return (
+    <div className="search">
+      <form onSubmit={onSubmit}>
+        <input type="text"
+               value={props.state.search.value}
+               onChange={onChange}
+               placeholder="channel name"
+        />
+        <input type="submit" value="search" />
+      </form>
+      <p className="text-center">{props.state.search.error ? `Didn't find anything :(` : ''}</p>
 
-  render() {
-    return (
-      <div className="search">
-        <form onSubmit={this.onSubmit}>
-          <input type="text"
-                 value={this.state.value}
-                 onChange={this.change}
-                 placeholder="channel name"
-          />
-          <input type="submit" value="search" />
-        </form>
-        <p className="text-center">{this.state.error ? `Didn't find anything :(` : ''}</p>
-
-        <p className="text-center pointer" onClick={this.changeOrder}>Playing videos from {this.state.reverseOrder ? 'newest to oldest ▼' : 'oldest to newest ▲'}</p>
-      </div>
-    )
-  }
+      <p className="text-center pointer" onClick={changeOrder}>Playing videos from {props.state.reverseOrder ? 'newest to oldest ▼' : 'oldest to newest ▲'}</p>
+    </div>
+  )
 }
 
 export default SearchBox

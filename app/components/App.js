@@ -9,7 +9,7 @@ export const App = props => (
   <div>
     <Help />
     <div className="container">
-      <SearchBox />
+      <SearchBox state={props.state} />
       <VideoList videos={props.state.videos} />
     </div>
   </div>
