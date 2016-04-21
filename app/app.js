@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { App } from './components/App.js!jsx'
+import App from './components/App.js!jsx'
 
 export const state = {
   videos: [],
@@ -16,7 +16,5 @@ export function render() {
   ReactDOM.render(<App state={state} />, document.getElementById('app'))
 }
 
-// hack that makes things work
-// maybe try http://stackoverflow.com/questions/33897273/typescript-and-systemjs-circle-dependency/33905499
+// all dependencies need to be loaded before initializing so here's a hack
 window.setTimeout(render, 0)
-// render()

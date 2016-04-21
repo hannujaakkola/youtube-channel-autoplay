@@ -4,8 +4,7 @@ import Help from './Help.js!jsx'
 import VideoList from './VideoList.js!jsx'
 import SearchBox from './SearchBox.js!jsx'
 
-
-export const App = props => (
+const App = props => (
   <div>
     <Help />
     <div className="container">
@@ -14,3 +13,5 @@ export const App = props => (
     </div>
   </div>
 )
+
+export default App
