@@ -1,8 +1,11 @@
 import { API_KEY } from './config.js'
 import _ from 'lodash'
 import moment from 'moment'
-import { updateVideos, clearVideos } from './components/VideoList.js!jsx'
-import { updateSearch, toggleError } from './components/SearchBox.js!jsx'
+
+import { state } from './main.js'
+import { updateVideos, clearVideos } from './actions/video.js'
+import { updateSearch, toggleError } from './actions/search.js'
+console.log(state);
 
 const body = document.getElementsByTagName('body')[0]
 const player = new YT.Player('player', {
@@ -14,9 +17,8 @@ const player = new YT.Player('player', {
   }
 })
 
-let videos, playingVideo, playlistItemUrl, nextPageToken
+let playingVideo, playlistItemUrl, nextPageToken
 let watchedVideos = []
-let reverseOrder = false
 if (localStorage.watchedVideos) {
   watchedVideos = JSON.parse(localStorage.watchedVideos)
 }
@@ -30,19 +32,18 @@ function getPlaylist(url, pageToken) {
     response.json().then(data => {
       nextPageToken = data.nextPageToken
 
-      videos = videos.concat(data.items).map(video => {
-        video.watched = _.includes(watchedVideos, video.snippet.resourceId.videoId)
-        video.publishedAgo = moment(video.snippet.publishedAt).fromNow()
-        return video
-      })
-
-      updateVideos(videos)
+      updateVideos(state.videos
+        .concat(data.items.map(video => {
+          video.watched = _.includes(watchedVideos, video.snippet.resourceId.videoId)
+          video.publishedAgo = moment(video.snippet.publishedAt).fromNow()
+          return video
+        }))
+      )
     })
   })
 }
 
 export function getUploads(username) {
-  videos = []
   clearVideos()
 
   var url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=${username}&key=${API_KEY}`
@@ -82,13 +83,13 @@ function onPlayerStateChange(event) {
     watchedVideos.push(playingVideo.snippet.resourceId.videoId)
     localStorage.watchedVideos = JSON.stringify(watchedVideos)
 
-    videos[position].watched = true
-    updateVideos(videos)
+    state.videos[position].watched = true
+    updateVideos(state.videos)
 
-    if (!reverseOrder && position > 0) {
-      playVideo(videos[position-1])
-    } else if (reverseOrder && position < videos.length - 1) {
-      playVideo(videos[position+1])
+    if (!state.reverseOrder && position > 0) {
+      playVideo(state.videos[position-1])
+    } else if (state.reverseOrder && position < state.videos.length - 1) {
+      playVideo(state.videos[position+1])
     } else {
       exitFullscreen()
     }
@@ -108,10 +109,11 @@ function exitFullscreen() {
 export function playVideo(video) {
   window.scroll(0,0)
   body.className = 'videoPlaying'
+
   playingVideo = video
   player.loadVideoById(video.snippet.resourceId.videoId, 0, 'large')
 }
 
 export function changePlayingOrder(order) {
-  reverseOrder = order
+  state.reverseOrder = order
 }
