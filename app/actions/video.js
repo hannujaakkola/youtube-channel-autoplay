@@ -1,11 +1,13 @@
-import { state, render } from './../app.js'
+import { update } from './../main.js'
 
 export function updateVideos(videos) {
-  state.videos = videos
-  render()
+  update({
+    videos: videos
+  })
 }
 
 export function clearVideos() {
-  state.videos = []
-  render()
+  update({
+    videos: []
+  })
 }

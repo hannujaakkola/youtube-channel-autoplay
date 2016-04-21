@@ -2,7 +2,7 @@ import { API_KEY } from './config.js'
 import _ from 'lodash'
 import moment from 'moment'
 
-import { state } from './app.js'
+import { state } from './main.js'
 import { updateVideos, clearVideos } from './actions/video.js'
 import { updateSearch, toggleError } from './actions/search.js'
 console.log(state);

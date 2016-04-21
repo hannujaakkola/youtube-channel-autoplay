@@ -12,7 +12,22 @@ export const state = {
   }
 }
 
-export function render() {
+export function update(updateState) {
+  // this is quite simple, works only for 2 levels
+  for (let key in updateState) {
+    if (updateState[key] instanceof Object) {
+      for (let subKey in updateState[key]) {
+        state[key][subKey] = updateState[key][subKey]
+      }
+    } else {
+      state[key] = updateState[key]
+    }
+  }
+
+  render()
+}
+
+function render() {
   ReactDOM.render(<App state={state} />, document.getElementById('app'))
 }
 

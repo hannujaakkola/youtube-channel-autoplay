@@ -1,16 +1,23 @@
-import { state, render } from './../app.js'
+import { state, update } from './../main.js'
 
 export function updateSearch(value) {
-  state.search.value = value
-  render()
+  update({
+    search: {
+      value: value
+    }
+  })
 }
 
 export function toggleError(value) {
-  state.search.error = value
-  render()
+  update({
+    search: {
+      error: value
+    }
+  })
 }
 
 export function changeOrder(value) {
-  state.reverseOrder = !state.reverseOrder
-  render()
+  update({
+    reverseOrder: !state.reverseOrder
+  })
 }
