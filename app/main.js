@@ -15,7 +15,7 @@ export const state = {
 export function update(updateState) {
   // this is quite simple, works only for 2 levels
   for (let key in updateState) {
-    if (updateState[key] instanceof Object) {
+    if (Object.prototype.toString.call(updateState[key]) === "[object Object]") {
       for (let subKey in updateState[key]) {
         state[key][subKey] = updateState[key][subKey]
       }

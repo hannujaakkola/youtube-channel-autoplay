@@ -5,7 +5,6 @@ import moment from 'moment'
 import { state } from './main.js'
 import { updateVideos, clearVideos } from './actions/video.js'
 import { updateSearch, toggleError } from './actions/search.js'
-console.log(state);
 
 const body = document.getElementsByTagName('body')[0]
 const player = new YT.Player('player', {
