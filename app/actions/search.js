@@ -1,4 +1,5 @@
-import { state, update } from './../main.js'
+import { state } from './../main.js'
+import { update } from './update.js'
 
 export function updateSearch(value) {
   update({
