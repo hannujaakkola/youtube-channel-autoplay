@@ -4,8 +4,8 @@
       "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "lodash": "npm:lodash@^4.6.1",
       "moment": "npm:moment@^2.12.0",
-      "react": "npm:react@^0.14.3",
-      "react-dom": "npm:react-dom@^0.14.3"
+      "react": "npm:react@^15.0.1",
+      "react-dom": "npm:react-dom@^15.0.1"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
