@@ -1,4 +1,4 @@
-import { update } from './update.js'
+import { update } from './../index.js'
 
 export function updateVideos(videos) {
   update({

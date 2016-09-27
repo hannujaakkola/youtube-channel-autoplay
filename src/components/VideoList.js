@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Video from './Video.js!jsx'
-import { playVideo, loadMoreVideos } from './../player.js'
+import Video from './Video.js'
+import { playVideo, loadMoreVideos } from './../actions/player.js'
 
 function play() {
   playVideo(this)

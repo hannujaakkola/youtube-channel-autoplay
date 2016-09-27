@@ -1,20 +1,24 @@
-import { API_KEY } from './config.js'
+import settings from './../settings.js'
 import _ from 'lodash'
 import moment from 'moment'
 
-import { state } from './main.js'
-import { updateVideos, clearVideos } from './actions/video.js'
-import { updateSearch, toggleError } from './actions/search.js'
+import { state } from './../index.js'
+import { updateVideos, clearVideos } from './video.js'
+import { updateSearch, toggleError } from './search.js'
 
-const body = document.getElementsByTagName('body')[0]
-const player = new YT.Player('player', {
-  height: '100%',
-  width: '100%',
-  events: {
-    'onReady': onPlayerReady,
-    'onStateChange': onPlayerStateChange
-  }
-})
+let body, player
+
+window.onYouTubeIframeAPIReady = function() {
+  body = document.getElementsByTagName('body')[0]
+  player = new window.YT.Player('player', {
+    height: '100%',
+    width: '100%',
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  })
+}
 
 let playingVideo, playlistItemUrl, nextPageToken
 let watchedVideos = []
@@ -43,9 +47,15 @@ function getPlaylist(url, pageToken) {
 }
 
 export function getUploads(username) {
+  if (!settings.API_KEY) {
+    console.log('no API KEY')
+    return
+  }
+
   clearVideos()
 
-  var url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=${username}&key=${API_KEY}`
+  var url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=${username}&key=${settings.API_KEY}`
+  console.log(url);
   fetch(url).then(response => {
     response.json().then(data => {
       if (!data.items || !data.items.length) {
@@ -56,7 +66,7 @@ export function getUploads(username) {
       toggleError(false)
 
       var playlistId = data.items[0].contentDetails.relatedPlaylists.uploads
-      playlistItemUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`
+      playlistItemUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${settings.API_KEY}`
 
       getPlaylist(playlistItemUrl)
     })

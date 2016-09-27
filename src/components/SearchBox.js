@@ -1,5 +1,5 @@
 import React from 'react'
-import { getUploads, changePlayingOrder } from './../player.js'
+import { getUploads } from './../actions/player.js'
 import { updateSearch, changeOrder } from './../actions/search.js'
 
 const SearchBox = props => {

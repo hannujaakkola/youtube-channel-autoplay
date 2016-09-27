@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Help from './Help.js!jsx'
-import VideoList from './VideoList.js!jsx'
-import SearchBox from './SearchBox.js!jsx'
+import Help from './Help.js'
+import VideoList from './VideoList.js'
+import SearchBox from './SearchBox.js'
 
 const App = props => (
   <div>
