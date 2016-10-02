@@ -6,24 +6,22 @@ import { state } from './../index.js'
 import { updateVideos, clearVideos } from './video.js'
 import { updateSearch, toggleError } from './search.js'
 
-let body, player
+let player, playingVideo, playlistItemUrl, nextPageToken
+let watchedVideos = []
+if (localStorage.watchedVideos) {
+  watchedVideos = JSON.parse(localStorage.watchedVideos)
+}
 
-window.onYouTubeIframeAPIReady = function() {
-  body = document.getElementsByTagName('body')[0]
+window.onYouTubeReady = function() {
   player = new window.YT.Player('player', {
     height: '100%',
     width: '100%',
     events: {
       'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
+      'onStateChange': onPlayerStateChange,
+      onError: err => console.error('youtube error', err)
     }
   })
-}
-
-let playingVideo, playlistItemUrl, nextPageToken
-let watchedVideos = []
-if (localStorage.watchedVideos) {
-  watchedVideos = JSON.parse(localStorage.watchedVideos)
 }
 
 function getPlaylist(url, pageToken) {
@@ -48,14 +46,14 @@ function getPlaylist(url, pageToken) {
 
 export function getUploads(username) {
   if (!settings.API_KEY) {
-    console.log('no API KEY')
+    console.error('no API KEY')
     return
   }
 
   clearVideos()
 
   var url = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=${username}&key=${settings.API_KEY}`
-  console.log(url);
+
   fetch(url).then(response => {
     response.json().then(data => {
       if (!data.items || !data.items.length) {
@@ -117,9 +115,14 @@ function exitFullscreen() {
 
 export function playVideo(video) {
   window.scroll(0,0)
+  let body = document.getElementsByTagName('body')[0]
   body.className = 'videoPlaying'
 
   playingVideo = video
+
+  if (!player) {
+    console.error('player not found')
+  }
   player.loadVideoById(video.snippet.resourceId.videoId, 0, 'large')
 }
 
